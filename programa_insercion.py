@@ -13,35 +13,31 @@ email, saldo. Esta colección o tabla debe ser creada en la base de datos “dbp
 conexión del programa debe ser a través del usuario “facci”. Para realizar el programa usted
 puede hacer uso del lenguaje de programación que usted considere. Sugerencia Python.
 """
-# Importar las librerias que se van a utilizar.
-import pymongo
-from pymongo.errors import ConnectionFailure
+from pymongo import MongoClient
 
-# Establecer la conexión con MongoDB
-cliente = pymongo.MongoClient("mongodb://facci:asd@192.168.1.21:27017/dbprueba")
-# Seleccionar la base de datos
-db = cliente["dbprueba"]
+# Configurar la conexión a MongoDB
+client = MongoClient('mongodb://facci:asd@192.168.1.21:27017/dbprueba')
+db = client['dbprueba']
+collection = db['cliente']
 
-# Seleccionar la colección
-coleccion = db["cliente"]
-
-# Solicitar los datos al usuario
+# Obtener los datos del cliente
 datoNombre = input("Ingrese el nombre del cliente: ")
 datoDireccion = input("Ingrese la dirección del cliente: ")
 datoEmail = input("Ingrese el email del cliente: ")
-Datosaldo = float(input("Ingrese el saldo del cliente: "))
+datoSaldo = float(input("Ingrese el saldo del cliente: "))
 
-# Crear el documento a insertar
-documento = {
+
+# Crear el documento del cliente
+cliente = {
     "nombre": datoNombre,
     "direccion": datoDireccion,
     "email": datoEmail,
-    "saldo": Datosaldo
+    "saldo": datoSaldo
 }
 
-# Insertar el documento en la colección
-coleccion.insert_one(documento)
-print("Los datos del cliente se ha insertado correctamente.")
+# Insertar el documento en la colección "clientes"
+result = collection.insert_one(cliente)
+print("Documento insertado con el ID:", result.inserted_id)
 
 
 
