@@ -40,5 +40,24 @@ result = collection.insert_one(cliente)
 print("Documento insertado con el ID:", result.inserted_id)
 
 
+# Codigo que proporciona el profesor en la guía 3.
+import pymongo
+from pymongo.errors import ConnectionFailure
+
+try:
+
+    cliente="mongodb://facci:asd@192.168.1.21:27017/dbprueba"
+    connection = pymongo.MongoClient(cliente)
+    mydb = connection["dbprueba"]
+    mycol = mydb["cliente"]
+    mydict = { "nombre": "WINTERMEZA", "direccion": "Manta Barrio la Florita", "email":"wmeza@gmail.com", "saldo":"10" }
+    dataInserted = mycol.insert_one(mydict)
+    print("ID:"+str(dataInserted.inserted_id))
+    print ("Registro insertado")
+    connection.close_cursor
+    connection.close
+except ConnectionFailure:
+    print("Server no se encuentra disponible. Intente más tarde")
+
 
 
